@@ -22,7 +22,7 @@ class Employee extends Component {
         }
     }
 
-    submitHandler = (event) => {
+    submitHandler = async (event) => {
         event.preventDefault();
         // const {(EmpID.Value), (Name.Name), (EmpCode.EmpCode), (Salary.Salary)} = event.target
         // const { EmpID, Name, EmpCode, Salary } = event.target;
@@ -34,7 +34,7 @@ class Employee extends Component {
         }
         
         console.log(newEmp.ID)
-        axios.post(`/employees`,
+        await axios.post(`/employees`,
             {
                 Name: newEmp.Name,
                 EmpCode: newEmp.EmpCode,
@@ -70,13 +70,17 @@ class Employee extends Component {
         }
         
         console.log(newEmp.ID)
-        await axios.put(`/employees`,
+       try { await axios.put(`/employees`,
             {   
                 EmpID: newEmp.ID,
                 Name: newEmp.Name,
                 EmpCode: newEmp.EmpCode,
                 Salary: newEmp.Salary
             })
+        }
+       catch (error) {
+           console.error(error)
+        }
         this.refresh();
     }
 
