@@ -34,6 +34,9 @@ app.get('/employees/:id', (req, res) => {
 
 app.post('/employees', (req, res) => {
   let emp = req.body;
+  console.log('submitted')
+  console.log(emp.EmpID)
+  emp.EmpID = 0;
   let sql = 'SET @EmpID = ?; SET @Name =?; SET @EmpCode =?; SET @Salary = ?;\
   CALL EmployeeAddOrEdit(@EmpID, @Name, @EmpCode, @Salary)';
   mysqlConnection.query(
@@ -44,6 +47,20 @@ app.post('/employees', (req, res) => {
     }
   )
 
+})
+
+// insert employees
+app.put('/employees', (req, res) => {
+  let emp = req.body;
+  let sql = 'SET @EmpID = ?; SET @Name = ?; SET @EmpCode = ?; SET @Salary = ?;\
+  CALL EmployeeAddorEdit(@EmpID, @Name, @EmpCode, @Salary);';
+  mysqlConnection.query(
+    sql, [emp.EmpID, emp.Name, emp.EmpCode, emp.Salary],
+    (err, rows, field) => {
+      if (!err) res.send("Updated Successfully");
+      else console.log(err);
+    }
+  )
 })
 
 app.delete('/employees/:id', (req, res) => {

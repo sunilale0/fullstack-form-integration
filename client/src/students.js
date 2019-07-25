@@ -10,7 +10,7 @@ class Students extends Component {
 
   async componentDidMount() {
     console.log("try 1");
-    const res = await fetch("/api/students");
+    const res = await fetch("/employees");
     console.log("try 2");
     console.log("res ", res);
     const data = await res.json();
@@ -23,9 +23,31 @@ class Students extends Component {
   render() {
     console.log(this.state.students);
     return this.state.students ? (
-      <div>{this.state.students.map(el =>{
-        return(<li>ID:{el.id} First Name: {el.firstName} Last Name: {el.lastName}</li>)
-      })} test </div>
+      <div>
+        <table>
+          <tr>
+            <th>EmpID</th>
+            <th>Name</th>
+            <th>EmpCode</th>
+            <th>Salary</th>
+          </tr>
+        {this.state.students.map(el => {
+          return (
+            <tr>
+
+              <th>{el.EmpID}</th>
+              <th>{el.Name}</th>
+              <th>{el.EmpCode}</th>
+              <th>{el.Salary}</th>
+             </tr>
+          )
+        })} 
+        </table>
+       
+        <div>
+          test
+        </div>
+      </div>
     ) : (
       <div>Loading...</div>
     );
