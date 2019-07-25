@@ -52,15 +52,32 @@ class Employee extends Component {
         try {
             const res = await axios.get('/employees')
             this.setState({
-                employees:res.data
+                employees: res.data
             })
         } catch (error) {
             console.error(error)
         }
     }
 
-    async updateEmployee(EmpID) {
-        await axios.put(`employees`)
+    async updateEmployee(event) {
+        event.preventDefault();
+        const newEmp = {
+            ID: event.target.EmpID.value,
+            Name: event.target.Name.value,
+            EmpCode: event.target.EmpCode.value,
+            Salary: event.target.Salary.value
+
+        }
+        
+        console.log(newEmp.ID)
+        await axios.put(`/employees`,
+            {   
+                EmpID: newEmp.ID,
+                Name: newEmp.Name,
+                EmpCode: newEmp.EmpCode,
+                Salary: newEmp.Salary
+            })
+        this.refresh();
     }
 
 
@@ -69,7 +86,11 @@ render(){
     return (
         this.state.employees.length ? (<div>
 
-            <form onSubmit={this.submitHandler} className='border p-5'>
+            <form onSubmit={this.updateEmployee} className='border p-5'>
+            <div className='form-group'>
+                    <label htmlFor='EmpID'>EmpID</label>
+                    <input type='text' className='form-control' name='EmpID'/>
+                </div>
                 <div className='form-group'>
                     <label htmlFor='Name'>Name</label>
                     <input type='text' className='form-control' name='Name'/>
